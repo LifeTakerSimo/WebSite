@@ -20,10 +20,15 @@ export const Content = () => {
   };
 
   return (
-    <Box css={{ px: "$12", mt: "$8", "@xsMax": { px: "$10" } }}>
-      <h2>{"Welcome to my personal website".toUpperCase()}</h2>
-      <p size="$lg">{texts && texts[0].content}</p>
-      <Spacer y={1} />
-    </Box>
+    <div className="HomePage">
+      {texts && (
+        <Box  css={{ px: "$12", mt: "$8", "@xsMax": { px: "$10" } }}>
+          <h2>{texts[0].content.toUpperCase()}</h2>
+          <p size="$lg">{texts[1].content}</p>
+          <Spacer y={1} />
+          <p size="$lg">{texts[2].content}</p>
+        </Box>
+      )}
+    </div>
   );
-};
+}

@@ -37,7 +37,7 @@ function executeQuery(query, values = []) {
 async function createTextsTable() {
   try {
     // SQL query for creating the texts table
-    const query = `
+    const createTableQuery = `
       CREATE TABLE IF NOT EXISTS Texts (
         id INT AUTO_INCREMENT PRIMARY KEY,
         content TEXT,
@@ -47,22 +47,31 @@ async function createTextsTable() {
     `;
 
     // Execute the query to create the table
-    await executeQuery(query);
+    await executeQuery(createTableQuery);
     console.log('Texts table created');
 
+    // Check if HomeData already exists in the Texts table
+    const checkExistingDataQuery = `SELECT COUNT(*) AS count FROM Texts WHERE page = 'Home'`;
+    const existingData = await executeQuery(checkExistingDataQuery);
+
+    if (existingData[0].count > 0) {
+      console.log('HomeData already exists in the Texts table. Skipping insertion.');
+      return;
+    }
+
     // Insert sample data into the table
-    const sampleData = [
-      { content: 'Sample Content 1', comment: 'Sample Comment 1', page: 'Sample Page 1' },
-      { content: 'Sample Content 2', comment: 'Sample Comment 2', page: 'Sample Page 2' },
-      { content: 'Sample Content 3', comment: 'Sample Comment 3', page: 'Sample Page 3' }
+    const HomeData = [
+      { content: 'Welcome to my digital abode', comment: 'ttlWelcome', page: 'Home' },
+      { content: 'Embark on an extraordinary virtual odyssey through the realm of computer science. Join me as we navigate this exhilarating journey together, unlocking boundless opportunities along the way.', comment: 'lblHook', page: 'Home' },
+      { content: 'Through this website, I invite you to explore my world, where I\'ll be sharing valuable insights, experiences, and projects. Whether you\'re an enthusiast, a curious mind, or simply seeking inspiration, join me as we delve into the exhilarating world of computer science. Together, let\'s unlock the door to innovation, embrace the limitless possibilities it offers, and explore the vast horizons of the digital landscape.', comment: 'paraWelcome', page: 'Home' }
     ];
 
     const insertQuery = 'INSERT INTO Texts (content, comment, page) VALUES ?';
-    const values = sampleData.map(({ content, comment, page }) => [content, comment, page]);
+    const values = HomeData.map(({ content, comment, page }) => [content, comment, page]);
 
     // Execute the query to insert the sample data
     await executeQuery(insertQuery, [values]);
-    console.log('Sample data inserted into the Texts table');
+    console.log('HomeData inserted into the Texts table');
   } catch (error) {
     console.error('Error creating texts table:', error);
   }

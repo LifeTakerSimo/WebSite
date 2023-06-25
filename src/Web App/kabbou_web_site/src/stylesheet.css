@@ -1,3 +1,21 @@
 .NameOfuser{
     margin-left: 20px;
 }
+
+.HomePage{
+display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 80vh;
+}
+
+@keyframes run {
+    0% {
+      transform: translateX(-100%); 
+    }
+    100% {
+      transform: translateX(100%); 
+    }
+  }
+  
